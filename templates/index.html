@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+<h1>{% block title %} Common Name {% endblock %}</h1>
+<h1>{% block header %} Common Name {% endblock %}</h1>
+
+{% block content %}
+    <input type="text" name="name" id="name">
+    <br>
+    <button type="submit">Submit</button>
+
+    <div class="data"></div>
+{% endblock %}
