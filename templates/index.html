@@ -3,10 +3,26 @@
 <h1>{% block title %} Common Name {% endblock %}</h1>
 <h1>{% block header %} Common Name {% endblock %}</h1>
 
-{% block content %}
-    <input type="text" name="name" id="name">
-    <br>
-    <button type="submit">Submit</button>
+{% block aside %}
+    <aside>
+        <div class="selector">
+            <form action="{{ url_for("querry") }}" method="POST">
+                <label for="name">Name</label><br>
+                <input type="text" name="name">
+                <br>
+                <label for="number">Birth Year</label><br>
+                <input type="number" min="1996" max="2021" step="1" value="2021"/>
+                <br>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </aside>
+{% endblock %}
 
-    <div class="data"></div>
+{% block content %}
+    <main>
+        <div class="display">
+            DISPLAY
+        </div>
+    </main>
 {% endblock %}
