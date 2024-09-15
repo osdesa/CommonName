@@ -33,7 +33,7 @@ def get_data(name, year):
     # connect to DB
     conn = connect_to_db()
     # Querry value
-    data = get_frequancy(name.capitalize(), "Male", conn)
+    data = get_frequancy(name.capitalize(), "Female", conn)
 
     if data == []:
         print("NO RESULTS")
@@ -44,9 +44,8 @@ def get_data(name, year):
     year_frequancy = data[index]
     year_count = data[index + 1]
     # return to user
-    print(data[1::2])
-    print(list(range(1996, 2021)).reverse())
-    return year_count, year_frequancy, data[0::2] , list(range(1996, 2021)).reverse()
+    info = list(reversed(data[1::2]))
+    return year_count, year_frequancy, info , list(range(1996, 2022))
 
 def connect_to_db():
     conn = sqlite3.connect('names.db')
@@ -88,5 +87,6 @@ def get_frequancy(name, gender, conn):
             data.append(int(male) + int(female))
 
     data = data[1:]
+    data = [value.replace("[x]", "0") for value in data]
 
     return data

@@ -3,7 +3,7 @@
     padding: 0;
     display: grid;
     grid-template-rows: auto 1fr auto;
-    grid-template-columns: 2fr 2fr 2fr; /* 1fr for sidebar, 4fr for main content */
+    grid-template-columns: 1fr 1fr 2fr; /* 1fr for sidebar, 4fr for main content */
     min-height: 100vh;
   }
   
