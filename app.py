@@ -10,14 +10,14 @@ def index():
 @app.route('/', methods=['POST'])
 def querry():
     if request.method == "POST":
-        print("TEST")
         name = request.form.get("name")
         year = request.form.get("year")
+        sex = request.form["sex"]
 
-        if name == None or year == None:
+        if name == None or year == None or sex == None:
             return render_template('index.html')
 
-        data = get_data(name, int(year))
+        data = get_data(name, int(year), sex)
         return render_template('data.html',
                 name=name,
                 year=year,
@@ -29,11 +29,12 @@ def querry():
     print("NORMAL DISPLAY")
     return render_template('index.html')
 
-def get_data(name, year):
+def get_data(name, year, sex):
     # connect to DB
     conn = connect_to_db()
     # Querry value
-    data = get_frequancy(name.capitalize(), "Female", conn)
+    print(sex)
+    data = get_frequancy(name.capitalize(), sex, conn)
 
     if data == []:
         print("NO RESULTS")
@@ -45,6 +46,14 @@ def get_data(name, year):
     year_count = data[index + 1]
     # return to user
     info = list(reversed(data[1::2]))
+
+    if year_count == "0":
+        print("TEST")
+        year_count = "Less than 2 people"
+
+    if year_frequancy == "0":
+        year_frequancy = "Unkown"
+
     return year_count, year_frequancy, info , list(range(1996, 2022))
 
 def connect_to_db():
@@ -67,14 +76,21 @@ def get_frequancy(name, gender, conn):
     if gender == "Female" or gender == "Both":
         female_data = conn.execute('SELECT * from girls where Name = ?', (name,)).fetchone()
 
-    if gender == "Male" and male_data == None:
-        return []
+    if gender == "Male" and male_data == None: return []
 
-    if gender == "Female" and female_data == None:
-        return []
+    if gender == "Female" and female_data == None: return []
 
-    if gender == "Both" and female_data == None and male_data == None:
-        return []
+    if gender == "Both" and female_data == None and male_data == None: return []
+
+    if male_data == None:
+        male_data = []
+        for i in range(((2021-1996)* 2) + 3):
+            male_data.append('[x]')
+
+    if female_data == None:
+        female_data = []
+        for i in range(((2021-1996)* 2) + 3):
+            female_data.append('[x]')
 
     for male, female in zip(male_data, female_data):
         if male == '[x]':
@@ -84,7 +100,7 @@ def get_frequancy(name, gender, conn):
         elif male == name or female == name:
             data.append(name)
         else:
-            data.append(int(male) + int(female))
+            data.append(str(int(male) + int(female)))
 
     data = data[1:]
     data = [value.replace("[x]", "0") for value in data]
