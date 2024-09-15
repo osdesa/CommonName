@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="{{ url_for('static', filename= 'css/style.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
     <title>{% block title %} {% endblock %}</title>
 </head>
   <body class="container">
@@ -19,6 +20,8 @@
     <main>
         {% block content %} {% endblock %}
     </main>
+
+      {% block graphs %} {% endblock %}
 
     <footer class="footer">
         Site made by Hayden Farrell 2024 using Flask
